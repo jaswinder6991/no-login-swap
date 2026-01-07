@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NoLogin Swap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-tertiary: #1a1a25;
+      --accent: #00ffa3;
+      --accent-dim: #00ffa320;
+      --accent-glow: #00ffa340;
+      --text-primary: #ffffff;
+      --text-secondary: #8888aa;
+      --text-muted: #555566;
+      --border: #2a2a3a;
+      --error: #ff4466;
+      --warning: #ffaa00;
+      --success: #00ffa3;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(0, 255, 163, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 163, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+    }
+
+    .bg-glow {
+      position: fixed;
+      top: -30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 8px;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 300;
+    }
+
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--bg-tertiary);
+      padding: 4px;
+      border-radius: 10px;
+      margin-bottom: 24px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .tab.active {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .tab:hover:not(.active) {
+      color: var(--text-primary);
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      transition: all 0.2s;
+    }
+
+    select:focus, input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238888aa' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+    }
+
+    input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .swap-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .swap-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 18px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg-primary);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px var(--accent-glow);
+    }
+
+    .btn-primary:disabled {
+      background: var(--bg-tertiary);
+      color: var(--text-muted);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-secondary {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+    }
+
+    .quote-result {
+      display: none;
+    }
+
+    .quote-result.visible {
+      display: block;
+    }
+
+    .deposit-box {
+      background: linear-gradient(135deg, var(--accent-dim), transparent);
+      border: 1px solid var(--accent);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .deposit-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .deposit-address {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      word-break: break-all;
+      line-height: 1.6;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .deposit-address:hover {
+      opacity: 0.8;
+    }
+
+    .deposit-memo {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .copy-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .quote-details {
+      display: grid;
+      gap: 12px;
+    }
+
+    .quote-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quote-row:last-child {
+      border-bottom: none;
+    }
+
+    .quote-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .quote-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--text-primary);
+    }
+
+    .quote-value.highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .status-panel {
+      display: none;
+    }
+
+    .status-panel.visible {
+      display: block;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .status-badge.pending {
+      background: var(--warning);
+      color: var(--bg-primary);
+    }
+
+    .status-badge.processing {
+      background: #4488ff;
+      color: white;
+    }
+
+    .status-badge.success {
+      background: var(--success);
+      color: var(--bg-primary);
+    }
+
+    .status-badge.failed, .status-badge.refunded {
+      background: var(--error);
+      color: white;
+    }
+
+    .status-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .status-info {
+      margin-top: 16px;
+    }
+
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .message {
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .message.visible {
+      display: block;
+    }
+
+    .message.error {
+      background: rgba(255, 68, 102, 0.1);
+      border: 1px solid var(--error);
+      color: var(--error);
+    }
+
+    .message.success {
+      background: rgba(0, 255, 163, 0.1);
+      border: 1px solid var(--success);
+      color: var(--success);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 480px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <div class="container">
+    <header>
+      <h1 class="logo">NoLogin<span>Swap</span></h1>
+      <p class="tagline">Cross-chain swaps. No wallet connection required.</p>
+    </header>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="swap">Swap</button>
+      <button class="tab" data-tab="status">Check Status</button>
+    </div>
+
+    <!-- SWAP PANEL -->
+    <div id="swap-panel">
+      <div class="card">
+        <div class="card-title">From</div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label>Network</label>
+            <select id="from-network">
+              <option value="">Loading...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Token</label>
+            <select id="from-token">
+              <option value="">Select network first</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Amount</label>
+          <input type="text" id="amount" placeholder="0.00">
+        </div>
+
+        <div class="form-group">
+          <label>Refund Address (on source chain)</label>
+          <input type="text" id="refund" placeholder="Your address on source chain">
+        </div>
+      </div>
+
+      <div class="swap-divider">
+        <div class="swap-icon">↓</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">To</div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label>Network</label>
+            <select id="to-network">
+              <option value="">Loading...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Token</label>
+            <select id="to-token">
+              <option value="">Select network first</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Recipient Address (on destination chain)</label>
+          <input type="text" id="recipient" placeholder="Recipient address on destination chain">
+        </div>
+      </div>
+
+      <div id="message" class="message"></div>
+
+      <button id="get-quote-btn" class="btn btn-primary">Get Quote</button>
+
+      <!-- Quote Result -->
+      <div id="quote-result" class="quote-result">
+        <div class="card" style="margin-top: 20px;">
+          <div class="card-title">Quote</div>
+          
+          <div class="deposit-box">
+            <div class="deposit-label">Deposit Address</div>
+            <div class="deposit-address" id="deposit-address" onclick="copyAddress()"></div>
+            <div id="deposit-memo" class="deposit-memo" style="display: none;">
+              <div class="deposit-label">Memo (Required)</div>
+              <div class="deposit-address" id="memo-value" onclick="copyMemo()"></div>
+            </div>
+            <div class="copy-hint">Click to copy</div>
+          </div>
+
+          <div class="quote-details">
+            <div class="quote-row">
+              <span class="quote-label">You Send</span>
+              <span class="quote-value" id="quote-in"></span>
+            </div>
+            <div class="quote-row">
+              <span class="quote-label">You Receive</span>
+              <span class="quote-value highlight" id="quote-out"></span>
+            </div>
+            <div class="quote-row">
+              <span class="quote-label">Min. Receive</span>
+              <span class="quote-value" id="quote-min"></span>
+            </div>
+            <div class="quote-row">
+              <span class="quote-label">Estimated Time</span>
+              <span class="quote-value" id="quote-time"></span>
+            </div>
+            <div class="quote-row">
+              <span class="quote-label">Expires</span>
+              <span class="quote-value" id="quote-deadline"></span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-secondary" onclick="resetSwap()">New Swap</button>
+      </div>
+    </div>
+
+    <!-- STATUS PANEL -->
+    <div id="status-panel" class="status-panel">
+      <div class="card">
+        <div class="card-title">Check Swap Status</div>
+        
+        <div class="form-group">
+          <label>Deposit Address</label>
+          <input type="text" id="status-address" placeholder="Enter deposit address">
+        </div>
+
+        <button id="check-status-btn" class="btn btn-primary">Check Status</button>
+      </div>
+
+      <div id="status-message" class="message"></div>
+
+      <div id="status-result" class="quote-result">
+        <div class="card" style="margin-top: 20px;">
+          <div class="card-title">Status</div>
+          
+          <div style="text-align: center; margin-bottom: 16px;">
+            <span id="status-badge" class="status-badge"></span>
+          </div>
+
+          <div class="quote-details status-info" id="status-details"></div>
+        </div>
+
+        <button class="btn btn-secondary" onclick="refreshStatus()">Refresh</button>
+      </div>
+    </div>
+
+    <footer>
+      Powered by <a href="https://docs.near-intents.org/near-intents/integration/distribution-channels/1click-api" target="_blank">NEAR Intents 1Click API</a>
+    </footer>
+  </div>
+
+  <script>
+    const API_BASE = 'https://1click.chaindefuser.com';
+    
+    let tokens = [];
+    let networks = [];
+    let currentDepositAddress = '';
+    let currentMemo = '';
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        const tabName = tab.dataset.tab;
+        document.getElementById('swap-panel').style.display = tabName === 'swap' ? 'block' : 'none';
+        document.getElementById('status-panel').classList.toggle('visible', tabName === 'status');
+      });
+    });
+
+    // Load tokens on page load
+    async function loadTokens() {
+      try {
+        const res = await fetch(`${API_BASE}/v0/tokens`);
+        tokens = await res.json();
+        
+        // Extract unique networks
+        const networkSet = new Set();
+        tokens.forEach(t => {
+          if (t.blockchain) {
+            networkSet.add(t.blockchain);
+          }
+        });
+        networks = Array.from(networkSet).sort();
+        
+        // Populate network dropdowns
+        const networkOptions = networks.map(n => 
+          `<option value="${n}">${n.toUpperCase()}</option>`
+        ).join('');
+        
+        document.getElementById('from-network').innerHTML = 
+          '<option value="">Select network</option>' + networkOptions;
+        document.getElementById('to-network').innerHTML = 
+          '<option value="">Select network</option>' + networkOptions;
+          
+        // Reset token dropdowns
+        document.getElementById('from-token').innerHTML = '<option value="">Select network first</option>';
+        document.getElementById('to-token').innerHTML = '<option value="">Select network first</option>';
+        
+      } catch (err) {
+        console.error('Failed to load tokens:', err);
+        showMessage('Failed to load tokens. Please refresh.', 'error');
+      }
+    }
+
+    // Update token dropdown when network changes
+    function updateTokenDropdown(networkSelectId, tokenSelectId) {
+      const network = document.getElementById(networkSelectId).value;
+      const tokenSelect = document.getElementById(tokenSelectId);
+      
+      if (!network) {
+        tokenSelect.innerHTML = '<option value="">Select network first</option>';
+        return;
+      }
+      
+      // Filter tokens by network and sort by price
+      const filteredTokens = tokens
+        .filter(t => t.blockchain === network)
+        .sort((a, b) => (b.price || 0) - (a.price || 0));
+      
+      const options = filteredTokens.map(t => {
+        const priceStr = t.price ? ` ($${t.price.toFixed(2)})` : '';
+        return `<option value="${t.assetId}">${t.symbol}${priceStr}</option>`;
+      }).join('');
+      
+      tokenSelect.innerHTML = '<option value="">Select token</option>' + options;
+    }
+
+    // Event listeners for network changes
+    document.getElementById('from-network').addEventListener('change', () => {
+      updateTokenDropdown('from-network', 'from-token');
+    });
+    
+    document.getElementById('to-network').addEventListener('change', () => {
+      updateTokenDropdown('to-network', 'to-token');
+    });
+
+    // Get quote
+    document.getElementById('get-quote-btn').addEventListener('click', async () => {
+      const fromToken = document.getElementById('from-token').value;
+      const toToken = document.getElementById('to-token').value;
+      const amount = document.getElementById('amount').value;
+      const recipient = document.getElementById('recipient').value;
+      const refundTo = document.getElementById('refund').value;
+
+      if (!fromToken || !toToken || !amount || !recipient || !refundTo) {
+        showMessage('Please fill in all fields', 'error');
+        return;
+      }
+
+      const fromTokenData = tokens.find(t => t.assetId === fromToken);
+      if (!fromTokenData) {
+        showMessage('Invalid source token', 'error');
+        return;
+      }
+
+      // Convert amount to smallest units (as a string)
+      const decimals = fromTokenData.decimals || 18;
+      const amountFloat = parseFloat(amount);
+      if (isNaN(amountFloat) || amountFloat <= 0) {
+        showMessage('Please enter a valid amount', 'error');
+        return;
+      }
+      
+      // Use BigInt-like string math to avoid precision issues
+      const amountInSmallest = Math.floor(amountFloat * Math.pow(10, decimals)).toString();
+
+      // Set deadline to 30 minutes from now
+      const deadline = new Date(Date.now() + 30 * 60 * 1000).toISOString();
+
+      const btn = document.getElementById('get-quote-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<div class="spinner"></div>';
+
+      try {
+        const requestBody = {
+          dry: false,
+          swapType: 'EXACT_INPUT',
+          slippageTolerance: 100, // 1%
+          originAsset: fromToken,
+          depositType: 'ORIGIN_CHAIN',
+          destinationAsset: toToken,
+          amount: amountInSmallest,
+          recipient: recipient,
+          recipientType: 'DESTINATION_CHAIN',
+          refundTo: refundTo,
+          refundType: 'ORIGIN_CHAIN',
+          deadline: deadline,
+          appFees: [
+            {
+              recipient: 'jass.near',
+              fee: 9 // 0.09% = 9 basis points
+            }
+          ]
+        };
+        
+        console.log('Quote request:', requestBody);
+
+        const res = await fetch(`${API_BASE}/v0/quote`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestBody)
+        });
+
+        const data = await res.json();
+        console.log('Quote response:', data);
+        
+        if (!res.ok) {
+          throw new Error(data.message || JSON.stringify(data) || 'Failed to get quote');
+        }
+
+        displayQuote(data);
+        hideMessage();
+      } catch (err) {
+        console.error('Quote error:', err);
+        showMessage(err.message || 'Failed to get quote', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Get Quote';
+      }
+    });
+
+    function displayQuote(data) {
+      const quote = data.quote;
+      
+      currentDepositAddress = quote.depositAddress;
+      currentMemo = quote.depositMemo || '';
+
+      document.getElementById('deposit-address').textContent = quote.depositAddress;
+      
+      if (currentMemo) {
+        document.getElementById('deposit-memo').style.display = 'block';
+        document.getElementById('memo-value').textContent = currentMemo;
+      } else {
+        document.getElementById('deposit-memo').style.display = 'none';
+      }
+
+      document.getElementById('quote-in').textContent = `${quote.amountInFormatted || 'N/A'} ($${quote.amountInUsd || 'N/A'})`;
+      document.getElementById('quote-out').textContent = `${quote.amountOutFormatted || 'N/A'} (~$${quote.amountOutUsd || 'N/A'})`;
+      document.getElementById('quote-min').textContent = quote.minAmountOut ? formatAmount(quote.minAmountOut) : 'N/A';
+      document.getElementById('quote-time').textContent = quote.timeEstimate ? `~${quote.timeEstimate}s` : 'N/A';
+      document.getElementById('quote-deadline').textContent = quote.deadline ? new Date(quote.deadline).toLocaleString() : 'N/A';
+
+      document.getElementById('quote-result').classList.add('visible');
+      document.getElementById('get-quote-btn').style.display = 'none';
+    }
+
+    function formatAmount(amount) {
+      if (!amount) return 'N/A';
+      const num = parseFloat(amount);
+      if (isNaN(num)) return amount;
+      if (num >= 1e9) return (num / 1e9).toFixed(4) + 'B';
+      if (num >= 1e6) return (num / 1e6).toFixed(4) + 'M';
+      if (num >= 1e3) return (num / 1e3).toFixed(4) + 'K';
+      return num.toFixed(6);
+    }
+
+    function resetSwap() {
+      document.getElementById('quote-result').classList.remove('visible');
+      document.getElementById('get-quote-btn').style.display = 'block';
+      document.getElementById('amount').value = '';
+      currentDepositAddress = '';
+      currentMemo = '';
+    }
+
+    async function copyAddress() {
+      await navigator.clipboard.writeText(currentDepositAddress);
+      showMessage('Address copied!', 'success');
+      setTimeout(hideMessage, 2000);
+    }
+
+    async function copyMemo() {
+      await navigator.clipboard.writeText(currentMemo);
+      showMessage('Memo copied!', 'success');
+      setTimeout(hideMessage, 2000);
+    }
+
+    // Status checking
+    document.getElementById('check-status-btn').addEventListener('click', checkStatus);
+
+    async function checkStatus() {
+      const address = document.getElementById('status-address').value;
+      
+      if (!address) {
+        showStatusMessage('Please enter a deposit address', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('check-status-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<div class="spinner"></div>';
+
+      try {
+        const res = await fetch(`${API_BASE}/v0/status?depositAddress=${encodeURIComponent(address)}`);
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || data.error || 'Failed to get status');
+        }
+
+        displayStatus(data);
+        hideStatusMessage();
+      } catch (err) {
+        console.error('Status error:', err);
+        showStatusMessage(err.message || 'Failed to get status', 'error');
+        document.getElementById('status-result').classList.remove('visible');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Check Status';
+      }
+    }
+
+    function displayStatus(data) {
+      const badge = document.getElementById('status-badge');
+      const status = data.status;
+      const depositAddress = document.getElementById('status-address').value;
+      
+      badge.textContent = status.replace(/_/g, ' ');
+      badge.className = 'status-badge';
+      
+      if (status.includes('PENDING') || status.includes('INCOMPLETE')) {
+        badge.classList.add('pending');
+      } else if (status.includes('PROCESSING') || status.includes('KNOWN')) {
+        badge.classList.add('processing');
+      } else if (status === 'SUCCESS') {
+        badge.classList.add('success');
+      } else if (status === 'FAILED' || status === 'REFUNDED') {
+        badge.classList.add('failed');
+      }
+
+      const details = document.getElementById('status-details');
+      let html = '';
+
+      // Add explorer link
+      const explorerUrl = `https://explorer.near-intents.org/transactions/${depositAddress}`;
+      html += `<div class="quote-row"><span class="quote-label">Explorer</span><span class="quote-value"><a href="${explorerUrl}" target="_blank" style="color: var(--accent); text-decoration: none;">View on Explorer ↗</a></span></div>`;
+
+      if (data.swapDetails) {
+        const sd = data.swapDetails;
+        if (sd.amountInFormatted) {
+          html += `<div class="quote-row"><span class="quote-label">Amount In</span><span class="quote-value">${sd.amountInFormatted} (~$${sd.amountInUsd || '?'})</span></div>`;
+        }
+        if (sd.amountOutFormatted) {
+          html += `<div class="quote-row"><span class="quote-label">Amount Out</span><span class="quote-value highlight">${sd.amountOutFormatted} (~$${sd.amountOutUsd || '?'})</span></div>`;
+        }
+        if (sd.refundedAmountFormatted) {
+          html += `<div class="quote-row"><span class="quote-label">Refunded</span><span class="quote-value">${sd.refundedAmountFormatted}</span></div>`;
+        }
+        if (sd.refundReason) {
+          html += `<div class="quote-row"><span class="quote-label">Refund Reason</span><span class="quote-value">${sd.refundReason}</span></div>`;
+        }
+      }
+
+      if (data.updatedAt) {
+        html += `<div class="quote-row"><span class="quote-label">Last Updated</span><span class="quote-value">${new Date(data.updatedAt).toLocaleString()}</span></div>`;
+      }
+
+      details.innerHTML = html || '<div class="quote-row"><span class="quote-label">No details available yet</span></div>';
+      document.getElementById('status-result').classList.add('visible');
+    }
+
+    function refreshStatus() {
+      checkStatus();
+    }
+
+    // Message helpers
+    function showMessage(text, type) {
+      const el = document.getElementById('message');
+      el.textContent = text;
+      el.className = `message visible ${type}`;
+    }
+
+    function hideMessage() {
+      document.getElementById('message').classList.remove('visible');
+    }
+
+    function showStatusMessage(text, type) {
+      const el = document.getElementById('status-message');
+      el.textContent = text;
+      el.className = `message visible ${type}`;
+    }
+
+    function hideStatusMessage() {
+      document.getElementById('status-message').classList.remove('visible');
+    }
+
+    // Init
+    loadTokens();
+  </script>
+</body>
+</html>
