@@ -61,24 +61,27 @@
     }
 
     .container {
-      max-width: 520px;
+      max-width: 480px;
       margin: 0 auto;
-      padding: 40px 20px;
+      padding: 30px 16px;
       position: relative;
       z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     header {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 24px;
     }
 
     .logo {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 28px;
+      font-size: 24px;
       font-weight: 700;
       letter-spacing: -1px;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
 
     .logo span {
@@ -87,25 +90,85 @@
 
     .tagline {
       color: var(--text-secondary);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 300;
     }
 
+    /* Progress Steps */
+    .progress {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .progress-step {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .progress-step.active {
+      color: var(--accent);
+    }
+
+    .progress-step.completed {
+      color: var(--text-secondary);
+    }
+
+    .step-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--bg-tertiary);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .progress-step.active .step-dot {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+
+    .progress-step.completed .step-dot {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--bg-primary);
+    }
+
+    .progress-line {
+      width: 30px;
+      height: 2px;
+      background: var(--border);
+    }
+
+    .progress-line.completed {
+      background: var(--accent);
+    }
+
+    /* Card */
     .card {
       background: var(--bg-secondary);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
     }
 
     .card-title {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 1px;
       color: var(--text-secondary);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -113,72 +176,44 @@
 
     .card-title::before {
       content: '';
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
       background: var(--accent);
       border-radius: 2px;
     }
 
-    .tabs {
-      display: flex;
-      gap: 4px;
-      background: var(--bg-tertiary);
-      padding: 4px;
-      border-radius: 10px;
-      margin-bottom: 24px;
-    }
-
-    .tab {
-      flex: 1;
-      padding: 12px 16px;
-      border: none;
-      background: transparent;
-      color: var(--text-secondary);
-      font-family: 'Outfit', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      border-radius: 8px;
-      transition: all 0.2s;
-    }
-
-    .tab.active {
-      background: var(--bg-secondary);
-      color: var(--text-primary);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    .tab:hover:not(.active) {
-      color: var(--text-primary);
-    }
-
+    /* Form elements */
     .form-group {
-      margin-bottom: 16px;
+      margin-bottom: 14px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
     }
 
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 10px;
     }
 
     label {
       display: block;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 500;
       color: var(--text-secondary);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     select, input {
       width: 100%;
-      padding: 14px 16px;
+      padding: 12px 14px;
       background: var(--bg-tertiary);
       border: 1px solid var(--border);
       border-radius: 10px;
       color: var(--text-primary);
       font-family: 'Outfit', sans-serif;
-      font-size: 15px;
+      font-size: 14px;
       transition: all 0.2s;
     }
 
@@ -193,40 +228,21 @@
       appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238888aa' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 16px center;
+      background-position: right 12px center;
     }
 
     input::placeholder {
       color: var(--text-muted);
     }
 
-    .swap-divider {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 20px 0;
-    }
-
-    .swap-icon {
-      width: 40px;
-      height: 40px;
-      background: var(--bg-tertiary);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--accent);
-      font-size: 18px;
-    }
-
+    /* Buttons */
     .btn {
       width: 100%;
-      padding: 16px;
+      padding: 14px;
       border: none;
       border-radius: 10px;
       font-family: 'Outfit', sans-serif;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
@@ -238,8 +254,8 @@
     }
 
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px var(--accent-glow);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px var(--accent-glow);
     }
 
     .btn-primary:disabled {
@@ -260,36 +276,79 @@
       border-color: var(--accent);
     }
 
-    .quote-result {
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-group .btn {
+      flex: 1;
+    }
+
+    /* Steps */
+    .step {
       display: none;
+      flex: 1;
+      flex-direction: column;
     }
 
-    .quote-result.visible {
-      display: block;
+    .step.active {
+      display: flex;
     }
 
+    .step-content {
+      flex: 1;
+    }
+
+    .step-actions {
+      margin-top: auto;
+      padding-top: 16px;
+    }
+
+    /* Swap divider */
+    .swap-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 12px 0;
+    }
+
+    .swap-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 14px;
+    }
+
+    /* Deposit box */
     .deposit-box {
       background: linear-gradient(135deg, var(--accent-dim), transparent);
       border: 1px solid var(--accent);
       border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
     }
 
     .deposit-label {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 1px;
       color: var(--accent);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .deposit-address {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
+      font-size: 12px;
       word-break: break-all;
-      line-height: 1.6;
+      line-height: 1.5;
       color: var(--text-primary);
       cursor: pointer;
       transition: opacity 0.2s;
@@ -300,28 +359,25 @@
     }
 
     .deposit-memo {
-      margin-top: 12px;
-      padding-top: 12px;
+      margin-top: 10px;
+      padding-top: 10px;
       border-top: 1px solid var(--border);
     }
 
     .copy-hint {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--text-muted);
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
-    .quote-details {
-      display: grid;
-      gap: 12px;
-    }
-
+    /* Quote details */
     .quote-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 0;
+      padding: 10px 0;
       border-bottom: 1px solid var(--border);
+      font-size: 13px;
     }
 
     .quote-row:last-child {
@@ -329,13 +385,12 @@
     }
 
     .quote-label {
-      font-size: 13px;
       color: var(--text-secondary);
     }
 
     .quote-value {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
+      font-size: 12px;
       color: var(--text-primary);
     }
 
@@ -344,21 +399,14 @@
       font-weight: 600;
     }
 
-    .status-panel {
-      display: none;
-    }
-
-    .status-panel.visible {
-      display: block;
-    }
-
+    /* Status badge */
     .status-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       padding: 8px 14px;
       border-radius: 20px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -398,13 +446,10 @@
       50% { opacity: 0.4; }
     }
 
-    .status-info {
-      margin-top: 16px;
-    }
-
+    /* Spinner */
     .spinner {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       border: 2px solid var(--border);
       border-top-color: var(--accent);
       border-radius: 50%;
@@ -416,11 +461,12 @@
       to { transform: rotate(360deg); }
     }
 
+    /* Message */
     .message {
-      padding: 14px 16px;
+      padding: 12px 14px;
       border-radius: 10px;
-      font-size: 13px;
-      margin-bottom: 16px;
+      font-size: 12px;
+      margin-bottom: 14px;
       display: none;
     }
 
@@ -440,13 +486,12 @@
       color: var(--success);
     }
 
+    /* Footer */
     footer {
       text-align: center;
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
+      padding-top: 16px;
       color: var(--text-muted);
-      font-size: 12px;
+      font-size: 11px;
     }
 
     footer a {
@@ -454,23 +499,38 @@
       text-decoration: none;
     }
 
-    footer a:hover {
+    /* Status input */
+    .status-input-section {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .status-input-section summary {
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    /* Link style */
+    a.explorer-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 12px;
+    }
+
+    a.explorer-link:hover {
       text-decoration: underline;
     }
 
-    .section-label {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-      margin-top: 8px;
-    }
-
-    @media (max-width: 480px) {
+    @media (max-width: 400px) {
       .form-row {
         grid-template-columns: 1fr;
+      }
+      
+      .progress-step span {
+        display: none;
       }
     }
   </style>
@@ -482,152 +542,175 @@
   <div class="container">
     <header>
       <h1 class="logo">NoLogin<span>Swap</span></h1>
-      <p class="tagline">Cross-chain swaps. No wallet connection required.</p>
+      <p class="tagline">Cross-chain swaps. No wallet needed.</p>
     </header>
 
-    <div class="tabs">
-      <button class="tab active" data-tab="swap">Swap</button>
-      <button class="tab" data-tab="status">Check Status</button>
+    <!-- Progress indicator -->
+    <div class="progress">
+      <div class="progress-step active" id="prog-1">
+        <div class="step-dot">1</div>
+        <span>Setup</span>
+      </div>
+      <div class="progress-line" id="line-1"></div>
+      <div class="progress-step" id="prog-2">
+        <div class="step-dot">2</div>
+        <span>Deposit</span>
+      </div>
+      <div class="progress-line" id="line-2"></div>
+      <div class="progress-step" id="prog-3">
+        <div class="step-dot">3</div>
+        <span>Status</span>
+      </div>
     </div>
 
-    <!-- SWAP PANEL -->
-    <div id="swap-panel">
-      <div class="card">
-        <div class="card-title">From</div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label>Network</label>
-            <select id="from-network">
-              <option value="">Loading...</option>
-            </select>
+    <!-- STEP 1: Setup -->
+    <div class="step active" id="step-1">
+      <div class="step-content">
+        <div class="card">
+          <div class="card-title">From</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Network</label>
+              <select id="from-network">
+                <option value="">Loading...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Token</label>
+              <select id="from-token">
+                <option value="">Select network</option>
+              </select>
+            </div>
           </div>
           <div class="form-group">
-            <label>Token</label>
-            <select id="from-token">
-              <option value="">Select network first</option>
-            </select>
+            <label>Amount</label>
+            <input type="text" id="amount" placeholder="0.00">
+          </div>
+          <div class="form-group">
+            <label>Your refund address</label>
+            <input type="text" id="refund" placeholder="On source chain">
           </div>
         </div>
 
-        <div class="form-group">
-          <label>Amount</label>
-          <input type="text" id="amount" placeholder="0.00">
+        <div class="swap-divider">
+          <div class="swap-icon">↓</div>
         </div>
 
-        <div class="form-group">
-          <label>Refund Address (on source chain)</label>
-          <input type="text" id="refund" placeholder="Your address on source chain">
+        <div class="card">
+          <div class="card-title">To</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Network</label>
+              <select id="to-network">
+                <option value="">Loading...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Token</label>
+              <select id="to-token">
+                <option value="">Select network</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Recipient address</label>
+            <input type="text" id="recipient" placeholder="On destination chain">
+          </div>
         </div>
+
+        <div id="message-1" class="message"></div>
       </div>
 
-      <div class="swap-divider">
-        <div class="swap-icon">↓</div>
+      <div class="step-actions">
+        <button id="get-quote-btn" class="btn btn-primary">Get Quote →</button>
       </div>
+    </div>
 
-      <div class="card">
-        <div class="card-title">To</div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label>Network</label>
-            <select id="to-network">
-              <option value="">Loading...</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Token</label>
-            <select id="to-token">
-              <option value="">Select network first</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Recipient Address (on destination chain)</label>
-          <input type="text" id="recipient" placeholder="Recipient address on destination chain">
-        </div>
-      </div>
-
-      <div id="message" class="message"></div>
-
-      <button id="get-quote-btn" class="btn btn-primary">Get Quote</button>
-
-      <!-- Quote Result -->
-      <div id="quote-result" class="quote-result">
-        <div class="card" style="margin-top: 20px;">
-          <div class="card-title">Quote</div>
+    <!-- STEP 2: Deposit -->
+    <div class="step" id="step-2">
+      <div class="step-content">
+        <div class="card">
+          <div class="card-title">Deposit to complete swap</div>
           
           <div class="deposit-box">
-            <div class="deposit-label">Deposit Address</div>
+            <div class="deposit-label">Send funds to this address</div>
             <div class="deposit-address" id="deposit-address" onclick="copyAddress()"></div>
             <div id="deposit-memo" class="deposit-memo" style="display: none;">
               <div class="deposit-label">Memo (Required)</div>
               <div class="deposit-address" id="memo-value" onclick="copyMemo()"></div>
             </div>
-            <div class="copy-hint">Click to copy</div>
+            <div class="copy-hint">Tap to copy</div>
           </div>
 
-          <div class="quote-details">
-            <div class="quote-row">
-              <span class="quote-label">You Send</span>
-              <span class="quote-value" id="quote-in"></span>
-            </div>
-            <div class="quote-row">
-              <span class="quote-label">You Receive</span>
-              <span class="quote-value highlight" id="quote-out"></span>
-            </div>
-            <div class="quote-row">
-              <span class="quote-label">Min. Receive</span>
-              <span class="quote-value" id="quote-min"></span>
-            </div>
-            <div class="quote-row">
-              <span class="quote-label">Estimated Time</span>
-              <span class="quote-value" id="quote-time"></span>
-            </div>
-            <div class="quote-row">
-              <span class="quote-label">Expires</span>
-              <span class="quote-value" id="quote-deadline"></span>
-            </div>
+          <div class="quote-row">
+            <span class="quote-label">You send</span>
+            <span class="quote-value" id="quote-in"></span>
+          </div>
+          <div class="quote-row">
+            <span class="quote-label">You receive</span>
+            <span class="quote-value highlight" id="quote-out"></span>
+          </div>
+          <div class="quote-row">
+            <span class="quote-label">Estimated time</span>
+            <span class="quote-value" id="quote-time"></span>
+          </div>
+          <div class="quote-row">
+            <span class="quote-label">Expires</span>
+            <span class="quote-value" id="quote-deadline"></span>
           </div>
         </div>
 
-        <button class="btn btn-secondary" onclick="resetSwap()">New Swap</button>
+        <div id="message-2" class="message"></div>
+      </div>
+
+      <div class="step-actions">
+        <div class="btn-group">
+          <button class="btn btn-secondary" onclick="goToStep(1)">← Back</button>
+          <button class="btn btn-primary" onclick="goToStep(3)">I've deposited →</button>
+        </div>
       </div>
     </div>
 
-    <!-- STATUS PANEL -->
-    <div id="status-panel" class="status-panel">
-      <div class="card">
-        <div class="card-title">Check Swap Status</div>
-        
-        <div class="form-group">
-          <label>Deposit Address</label>
-          <input type="text" id="status-address" placeholder="Enter deposit address">
-        </div>
-
-        <button id="check-status-btn" class="btn btn-primary">Check Status</button>
-      </div>
-
-      <div id="status-message" class="message"></div>
-
-      <div id="status-result" class="quote-result">
-        <div class="card" style="margin-top: 20px;">
-          <div class="card-title">Status</div>
+    <!-- STEP 3: Status -->
+    <div class="step" id="step-3">
+      <div class="step-content">
+        <div class="card">
+          <div class="card-title">Swap Status</div>
           
-          <div style="text-align: center; margin-bottom: 16px;">
-            <span id="status-badge" class="status-badge"></span>
+          <div style="text-align: center; margin-bottom: 14px;">
+            <span id="status-badge" class="status-badge pending">Checking...</span>
           </div>
 
-          <div class="quote-details status-info" id="status-details"></div>
+          <div id="status-details">
+            <div class="quote-row">
+              <span class="quote-label">Loading status...</span>
+            </div>
+          </div>
+
+          <!-- Manual address input -->
+          <details class="status-input-section">
+            <summary>Check a different swap</summary>
+            <div class="form-group" style="margin-top: 10px;">
+              <label>Deposit Address</label>
+              <input type="text" id="manual-status-address" placeholder="Enter deposit address">
+            </div>
+            <button class="btn btn-secondary" onclick="checkManualStatus()" style="margin-top: 8px;">Check Status</button>
+          </details>
         </div>
 
-        <button class="btn btn-secondary" onclick="refreshStatus()">Refresh</button>
+        <div id="message-3" class="message"></div>
+      </div>
+
+      <div class="step-actions">
+        <div class="btn-group">
+          <button class="btn btn-secondary" onclick="refreshStatus()">↻ Refresh</button>
+          <button class="btn btn-primary" onclick="startNewSwap()">New Swap</button>
+        </div>
       </div>
     </div>
 
     <footer>
-      Powered by <a href="https://docs.near-intents.org/near-intents/integration/distribution-channels/1click-api" target="_blank">NEAR Intents 1Click API</a>
+      Powered by <a href="https://docs.near-intents.org/near-intents/integration/distribution-channels/1click-api" target="_blank">NEAR Intents</a>
     </footer>
   </div>
 
@@ -638,6 +721,7 @@
     let networks = [];
     let currentDepositAddress = '';
     let currentMemo = '';
+    let currentStep = 1;
 
     // Convert a decimal amount to smallest units without scientific notation
     function toSmallestUnit(amount, decimals) {
@@ -646,46 +730,55 @@
       const integerPart = parts[0] || '0';
       let decimalPart = parts[1] || '';
       
-      // Pad or truncate decimal part to match decimals
       if (decimalPart.length < decimals) {
         decimalPart = decimalPart.padEnd(decimals, '0');
       } else if (decimalPart.length > decimals) {
         decimalPart = decimalPart.slice(0, decimals);
       }
       
-      // Combine and remove leading zeros (but keep at least one digit)
       const result = (integerPart + decimalPart).replace(/^0+/, '') || '0';
       return result;
     }
 
-    // Tab switching
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        
-        const tabName = tab.dataset.tab;
-        document.getElementById('swap-panel').style.display = tabName === 'swap' ? 'block' : 'none';
-        document.getElementById('status-panel').classList.toggle('visible', tabName === 'status');
+    // Step navigation
+    function goToStep(step) {
+      currentStep = step;
+      
+      document.querySelectorAll('.step').forEach((el, i) => {
+        el.classList.toggle('active', i + 1 === step);
       });
-    });
+      
+      // Update progress
+      for (let i = 1; i <= 3; i++) {
+        const prog = document.getElementById(`prog-${i}`);
+        prog.classList.remove('active', 'completed');
+        if (i < step) prog.classList.add('completed');
+        if (i === step) prog.classList.add('active');
+      }
+      
+      for (let i = 1; i <= 2; i++) {
+        const line = document.getElementById(`line-${i}`);
+        line.classList.toggle('completed', i < step);
+      }
+      
+      // Auto-check status when entering step 3
+      if (step === 3 && currentDepositAddress) {
+        checkStatus(currentDepositAddress);
+      }
+    }
 
-    // Load tokens on page load
+    // Load tokens
     async function loadTokens() {
       try {
         const res = await fetch(`${API_BASE}/v0/tokens`);
         tokens = await res.json();
         
-        // Extract unique networks
         const networkSet = new Set();
         tokens.forEach(t => {
-          if (t.blockchain) {
-            networkSet.add(t.blockchain);
-          }
+          if (t.blockchain) networkSet.add(t.blockchain);
         });
         networks = Array.from(networkSet).sort();
         
-        // Populate network dropdowns
         const networkOptions = networks.map(n => 
           `<option value="${n}">${n.toUpperCase()}</option>`
         ).join('');
@@ -695,13 +788,11 @@
         document.getElementById('to-network').innerHTML = 
           '<option value="">Select network</option>' + networkOptions;
           
-        // Reset token dropdowns
         document.getElementById('from-token').innerHTML = '<option value="">Select network first</option>';
         document.getElementById('to-token').innerHTML = '<option value="">Select network first</option>';
-        
       } catch (err) {
         console.error('Failed to load tokens:', err);
-        showMessage('Failed to load tokens. Please refresh.', 'error');
+        showMessage(1, 'Failed to load tokens. Please refresh.', 'error');
       }
     }
 
@@ -715,7 +806,6 @@
         return;
       }
       
-      // Filter tokens by network and sort by price
       const filteredTokens = tokens
         .filter(t => t.blockchain === network)
         .sort((a, b) => (b.price || 0) - (a.price || 0));
@@ -728,7 +818,6 @@
       tokenSelect.innerHTML = '<option value="">Select token</option>' + options;
     }
 
-    // Event listeners for network changes
     document.getElementById('from-network').addEventListener('change', () => {
       updateTokenDropdown('from-network', 'from-token');
     });
@@ -746,28 +835,24 @@
       const refundTo = document.getElementById('refund').value;
 
       if (!fromToken || !toToken || !amount || !recipient || !refundTo) {
-        showMessage('Please fill in all fields', 'error');
+        showMessage(1, 'Please fill in all fields', 'error');
         return;
       }
 
       const fromTokenData = tokens.find(t => t.assetId === fromToken);
       if (!fromTokenData) {
-        showMessage('Invalid source token', 'error');
+        showMessage(1, 'Invalid source token', 'error');
         return;
       }
 
-      // Convert amount to smallest units (as a string)
       const decimals = fromTokenData.decimals || 18;
       const amountFloat = parseFloat(amount);
       if (isNaN(amountFloat) || amountFloat <= 0) {
-        showMessage('Please enter a valid amount', 'error');
+        showMessage(1, 'Please enter a valid amount', 'error');
         return;
       }
       
-      // Convert to smallest units without scientific notation
       const amountInSmallest = toSmallestUnit(amount, decimals);
-
-      // Set deadline to 30 minutes from now
       const deadline = new Date(Date.now() + 30 * 60 * 1000).toISOString();
 
       const btn = document.getElementById('get-quote-btn');
@@ -778,7 +863,7 @@
         const requestBody = {
           dry: false,
           swapType: 'EXACT_INPUT',
-          slippageTolerance: 100, // 1%
+          slippageTolerance: 100,
           originAsset: fromToken,
           depositType: 'ORIGIN_CHAIN',
           destinationAsset: toToken,
@@ -791,12 +876,10 @@
           appFees: [
             {
               recipient: 'jass.near',
-              fee: 9 // 0.09% = 9 basis points
+              fee: 9
             }
           ]
         };
-        
-        console.log('Quote request:', requestBody);
 
         const res = await fetch(`${API_BASE}/v0/quote`, {
           method: 'POST',
@@ -805,20 +888,20 @@
         });
 
         const data = await res.json();
-        console.log('Quote response:', data);
         
         if (!res.ok) {
           throw new Error(data.message || JSON.stringify(data) || 'Failed to get quote');
         }
 
         displayQuote(data);
-        hideMessage();
+        hideMessage(1);
+        goToStep(2);
       } catch (err) {
         console.error('Quote error:', err);
-        showMessage(err.message || 'Failed to get quote', 'error');
+        showMessage(1, err.message || 'Failed to get quote', 'error');
       } finally {
         btn.disabled = false;
-        btn.textContent = 'Get Quote';
+        btn.textContent = 'Get Quote →';
       }
     });
 
@@ -837,85 +920,52 @@
         document.getElementById('deposit-memo').style.display = 'none';
       }
 
-      document.getElementById('quote-in').textContent = `${quote.amountInFormatted || 'N/A'} ($${quote.amountInUsd || 'N/A'})`;
+      document.getElementById('quote-in').textContent = `${quote.amountInFormatted || 'N/A'} (~$${quote.amountInUsd || 'N/A'})`;
       document.getElementById('quote-out').textContent = `${quote.amountOutFormatted || 'N/A'} (~$${quote.amountOutUsd || 'N/A'})`;
-      document.getElementById('quote-min').textContent = quote.minAmountOut ? formatAmount(quote.minAmountOut) : 'N/A';
       document.getElementById('quote-time').textContent = quote.timeEstimate ? `~${quote.timeEstimate}s` : 'N/A';
-      document.getElementById('quote-deadline').textContent = quote.deadline ? new Date(quote.deadline).toLocaleString() : 'N/A';
-
-      document.getElementById('quote-result').classList.add('visible');
-      document.getElementById('get-quote-btn').style.display = 'none';
-    }
-
-    function formatAmount(amount) {
-      if (!amount) return 'N/A';
-      const num = parseFloat(amount);
-      if (isNaN(num)) return amount;
-      if (num >= 1e9) return (num / 1e9).toFixed(4) + 'B';
-      if (num >= 1e6) return (num / 1e6).toFixed(4) + 'M';
-      if (num >= 1e3) return (num / 1e3).toFixed(4) + 'K';
-      return num.toFixed(6);
-    }
-
-    function resetSwap() {
-      document.getElementById('quote-result').classList.remove('visible');
-      document.getElementById('get-quote-btn').style.display = 'block';
-      document.getElementById('amount').value = '';
-      currentDepositAddress = '';
-      currentMemo = '';
+      document.getElementById('quote-deadline').textContent = quote.deadline ? new Date(quote.deadline).toLocaleTimeString() : 'N/A';
     }
 
     async function copyAddress() {
       await navigator.clipboard.writeText(currentDepositAddress);
-      showMessage('Address copied!', 'success');
-      setTimeout(hideMessage, 2000);
+      showMessage(2, 'Address copied!', 'success');
+      setTimeout(() => hideMessage(2), 2000);
     }
 
     async function copyMemo() {
       await navigator.clipboard.writeText(currentMemo);
-      showMessage('Memo copied!', 'success');
-      setTimeout(hideMessage, 2000);
+      showMessage(2, 'Memo copied!', 'success');
+      setTimeout(() => hideMessage(2), 2000);
     }
 
     // Status checking
-    document.getElementById('check-status-btn').addEventListener('click', checkStatus);
-
-    async function checkStatus() {
-      const address = document.getElementById('status-address').value;
+    async function checkStatus(address) {
+      if (!address) return;
       
-      if (!address) {
-        showStatusMessage('Please enter a deposit address', 'error');
-        return;
-      }
-
-      const btn = document.getElementById('check-status-btn');
-      btn.disabled = true;
-      btn.innerHTML = '<div class="spinner"></div>';
+      const badge = document.getElementById('status-badge');
+      badge.textContent = 'Checking...';
+      badge.className = 'status-badge pending';
 
       try {
         const res = await fetch(`${API_BASE}/v0/status?depositAddress=${encodeURIComponent(address)}`);
         const data = await res.json();
 
         if (!res.ok) {
-          throw new Error(data.message || data.error || 'Failed to get status');
+          throw new Error(data.message || 'Failed to get status');
         }
 
-        displayStatus(data);
-        hideStatusMessage();
+        displayStatus(data, address);
       } catch (err) {
         console.error('Status error:', err);
-        showStatusMessage(err.message || 'Failed to get status', 'error');
-        document.getElementById('status-result').classList.remove('visible');
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Check Status';
+        showMessage(3, err.message || 'Failed to get status', 'error');
+        badge.textContent = 'Error';
+        badge.className = 'status-badge failed';
       }
     }
 
-    function displayStatus(data) {
+    function displayStatus(data, address) {
       const badge = document.getElementById('status-badge');
       const status = data.status;
-      const depositAddress = document.getElementById('status-address').value;
       
       badge.textContent = status.replace(/_/g, ' ');
       badge.className = 'status-badge';
@@ -933,57 +983,60 @@
       const details = document.getElementById('status-details');
       let html = '';
 
-      // Add explorer link
-      const explorerUrl = `https://explorer.near-intents.org/transactions/${depositAddress}`;
-      html += `<div class="quote-row"><span class="quote-label">Explorer</span><span class="quote-value"><a href="${explorerUrl}" target="_blank" style="color: var(--accent); text-decoration: none;">View on Explorer ↗</a></span></div>`;
+      // Explorer link
+      const explorerUrl = `https://explorer.near-intents.org/transactions/${address}`;
+      html += `<div class="quote-row"><span class="quote-label">Explorer</span><a href="${explorerUrl}" target="_blank" class="explorer-link">View details ↗</a></div>`;
 
       if (data.swapDetails) {
         const sd = data.swapDetails;
         if (sd.amountInFormatted) {
-          html += `<div class="quote-row"><span class="quote-label">Amount In</span><span class="quote-value">${sd.amountInFormatted} (~$${sd.amountInUsd || '?'})</span></div>`;
+          html += `<div class="quote-row"><span class="quote-label">Sent</span><span class="quote-value">${sd.amountInFormatted}</span></div>`;
         }
         if (sd.amountOutFormatted) {
-          html += `<div class="quote-row"><span class="quote-label">Amount Out</span><span class="quote-value highlight">${sd.amountOutFormatted} (~$${sd.amountOutUsd || '?'})</span></div>`;
+          html += `<div class="quote-row"><span class="quote-label">Received</span><span class="quote-value highlight">${sd.amountOutFormatted}</span></div>`;
         }
         if (sd.refundedAmountFormatted) {
           html += `<div class="quote-row"><span class="quote-label">Refunded</span><span class="quote-value">${sd.refundedAmountFormatted}</span></div>`;
         }
-        if (sd.refundReason) {
-          html += `<div class="quote-row"><span class="quote-label">Refund Reason</span><span class="quote-value">${sd.refundReason}</span></div>`;
-        }
       }
 
       if (data.updatedAt) {
-        html += `<div class="quote-row"><span class="quote-label">Last Updated</span><span class="quote-value">${new Date(data.updatedAt).toLocaleString()}</span></div>`;
+        html += `<div class="quote-row"><span class="quote-label">Updated</span><span class="quote-value">${new Date(data.updatedAt).toLocaleString()}</span></div>`;
       }
 
-      details.innerHTML = html || '<div class="quote-row"><span class="quote-label">No details available yet</span></div>';
-      document.getElementById('status-result').classList.add('visible');
+      details.innerHTML = html || '<div class="quote-row"><span class="quote-label">Waiting for deposit...</span></div>';
     }
 
     function refreshStatus() {
-      checkStatus();
+      const manualAddress = document.getElementById('manual-status-address').value;
+      checkStatus(manualAddress || currentDepositAddress);
+    }
+
+    function checkManualStatus() {
+      const address = document.getElementById('manual-status-address').value;
+      if (address) {
+        currentDepositAddress = address;
+        checkStatus(address);
+      }
+    }
+
+    function startNewSwap() {
+      currentDepositAddress = '';
+      currentMemo = '';
+      document.getElementById('amount').value = '';
+      document.getElementById('manual-status-address').value = '';
+      goToStep(1);
     }
 
     // Message helpers
-    function showMessage(text, type) {
-      const el = document.getElementById('message');
+    function showMessage(step, text, type) {
+      const el = document.getElementById(`message-${step}`);
       el.textContent = text;
       el.className = `message visible ${type}`;
     }
 
-    function hideMessage() {
-      document.getElementById('message').classList.remove('visible');
-    }
-
-    function showStatusMessage(text, type) {
-      const el = document.getElementById('status-message');
-      el.textContent = text;
-      el.className = `message visible ${type}`;
-    }
-
-    function hideStatusMessage() {
-      document.getElementById('status-message').classList.remove('visible');
+    function hideMessage(step) {
+      document.getElementById(`message-${step}`).classList.remove('visible');
     }
 
     // Init
