@@ -639,6 +639,25 @@
     let currentDepositAddress = '';
     let currentMemo = '';
 
+    // Convert a decimal amount to smallest units without scientific notation
+    function toSmallestUnit(amount, decimals) {
+      const str = amount.toString();
+      const parts = str.split('.');
+      const integerPart = parts[0] || '0';
+      let decimalPart = parts[1] || '';
+      
+      // Pad or truncate decimal part to match decimals
+      if (decimalPart.length < decimals) {
+        decimalPart = decimalPart.padEnd(decimals, '0');
+      } else if (decimalPart.length > decimals) {
+        decimalPart = decimalPart.slice(0, decimals);
+      }
+      
+      // Combine and remove leading zeros (but keep at least one digit)
+      const result = (integerPart + decimalPart).replace(/^0+/, '') || '0';
+      return result;
+    }
+
     // Tab switching
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
@@ -745,8 +764,8 @@
         return;
       }
       
-      // Use BigInt-like string math to avoid precision issues
-      const amountInSmallest = Math.floor(amountFloat * Math.pow(10, decimals)).toString();
+      // Convert to smallest units without scientific notation
+      const amountInSmallest = toSmallestUnit(amount, decimals);
 
       // Set deadline to 30 minutes from now
       const deadline = new Date(Date.now() + 30 * 60 * 1000).toISOString();
